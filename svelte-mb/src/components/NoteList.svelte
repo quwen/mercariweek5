@@ -33,8 +33,8 @@
 </style>
 
 <div class="note">
-  {#each notes as note, index}
-    <div class="card" on:click={() => push(`/edit/${index}`)}>
+  {#each notes as note}
+    <div class="card" on:click={() => push(`/edit/${note.id}`)}>
       <div class="card-title">{note.title}</div>
       <div class="card-content">{note.content}</div>
     </div>

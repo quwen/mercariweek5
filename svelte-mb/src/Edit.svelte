@@ -1,17 +1,31 @@
 <script>
   import { push } from "svelte-spa-router";
   import NoteEditor from "./components/NoteEditor.svelte";
-  import { loadNotes, overwriteNote } from "./lib/storage";
-
+  import { db } from "./firebase";
+  let currentDate = new Date();
+  let title, content;
   export let params = {};
 
-  const note = loadNotes()[params.id];
-
-  let title = note.title;
-  let content = note.content;
+  const docRef = db.collection("notes").doc(params.id);
+  docRef
+    .get()
+    .then(function(doc) {
+      if (doc.exists) {
+        title = doc.data().title;
+        content = doc.data().content;
+      }
+    })
+    .catch(function(error) {
+      console.log("Error getting document:", error);
+    });
 
   const onSave = () => {
-    overwriteNote(params.id, { title, content });
+    docRef.update({
+      title: title,
+      content: content,
+      date: currentDate.toString()
+    });
+
     push("/");
   };
 </script>

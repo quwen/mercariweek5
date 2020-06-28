@@ -1,16 +1,30 @@
 <script>
   import { push } from "svelte-spa-router";
   import NoteList from "./components/NoteList.svelte";
-  import { loadNotes } from "./lib/storage";
 
-  const userNotes = loadNotes();
+  import { db } from "./firebase";
+  let notes = [];
+
+  db.collection("notes")
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(docRef) {
+        notes = [
+          ...notes,
+          {
+            id: docRef.id,
+            title: docRef.data().title,
+            content: docRef.data().content
+          }
+        ];
+      });
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
 </script>
 
 <style>
-  .app-title {
-    margin-bottom: 1em;
-  }
-
   .add {
     display: block;
     background-color: mediumturquoise;
@@ -26,8 +40,8 @@
 </style>
 
 <div class="home">
-  <h1 class="app-title">My note</h1>
-  <NoteList notes={userNotes} />
+
+  <NoteList {notes} />
   <button class="add" on:click={() => push('/add')}>+ New note</button>
 
 </div>

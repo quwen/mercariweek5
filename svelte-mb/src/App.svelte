@@ -24,20 +24,37 @@
 <style>
   main {
     background-color: antiquewhite;
+    margin-left: 300px;
     padding: 2em;
-    width: 100%;
     height: 100%;
     overflow-y: auto;
   }
+
+  #header {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    background-color: midnightblue;
+    color: white;
+    position: fixed;
+    text-align: right;
+  }
+  #header .app-title {
+    margin-bottom: 1em;
+  }
 </style>
 
-{#if user}
-  <Router {routes} />
-{:else}
-  <button on:click={login}>Signin with Google</button>
-{/if}
-<section />
+<div id="header">
+  <h1 class="app-title">My note</h1>
+</div>
+
 <main>
+
+  {#if user}
+    <Router {routes} />
+  {:else}
+    <button on:click={login}>Signin with Google</button>
+  {/if}
 
   <p>
     Visit the
