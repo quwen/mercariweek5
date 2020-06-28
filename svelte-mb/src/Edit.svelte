@@ -1,17 +1,36 @@
 <script>
   import { push } from "svelte-spa-router";
   import NoteEditor from "./components/NoteEditor.svelte";
-  import { loadNotes, overwriteNote } from "./lib/storage";
-
+  import { db } from "./firebase";
+  let currentDate = new Date();
+  let title, content;
   export let params = {};
 
-  const note = loadNotes()[params.id];
+  const docRef = db.collection("notes").doc(params.id);
+  docRef
+    .get()
+    .then(function(doc) {
+      if (doc.exists) {
+        title = doc.data().title;
+        content = doc.data().content;
+      }
+    })
+    .catch(function(error) {
+      console.log("Error getting document:", error);
+    });
 
-  let title = note.title;
-  let content = note.content;
+  const Delete = () => {
+    docRef.delete();
+    push("/");
+  };
 
   const onSave = () => {
-    overwriteNote(params.id, { title, content });
+    docRef.update({
+      title: title,
+      content: content,
+      date: currentDate.toString()
+    });
+
     push("/");
   };
 </script>
@@ -28,8 +47,18 @@
     text-align: right;
   }
 
+  .delete {
+    background-color: darkred;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+  }
+
   .save {
-    background-color: rgb(62, 68, 163);
+    background-color: teal;
     border: none;
     border-radius: 3px;
     color: white;
@@ -47,6 +76,8 @@
 <div class="add">
   <NoteEditor bind:title bind:content />
   <div class="button-container">
+
+    <button class="delete" on:click={Delete}>!Delete!</button>
     <button class="save" on:click={onSave} disabled={!title || !content}>
       Save
     </button>

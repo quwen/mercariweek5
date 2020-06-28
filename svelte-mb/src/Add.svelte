@@ -1,13 +1,40 @@
 <script>
   import { push } from "svelte-spa-router";
   import NoteEditor from "./components/NoteEditor.svelte";
-  import { addNote } from "./lib/storage";
+
+  import { db } from "./firebase";
 
   let title = "New Note";
   let content = "";
+  let currentDate = new Date();
+  let date, month, year;
 
+  $: {
+    date = currentDate.getDate();
+    month = currentDate.getMonth();
+    year = currentDate.getDate();
+  }
+
+  function add() {
+    db.collection("notes")
+      .add({
+        title,
+        content,
+        date: currentDate.toString()
+      })
+      .then(function(docRef) {
+        let noteid = docRef.id;
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+  }
+  /*
+  let title = "New Note";
+  let content = "";
+*/
   const onSave = () => {
-    addNote({ title, content });
+    add();
     push("/");
   };
 </script>
@@ -43,6 +70,7 @@
 <div class="add">
   <NoteEditor bind:title bind:content />
   <div class="button-container">
+
     <botton class="save" on:click={onSave} disabled={!title || !content}>
       Save
     </botton>
