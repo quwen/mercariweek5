@@ -19,6 +19,11 @@
       console.log("Error getting document:", error);
     });
 
+  const Delete = () => {
+    docRef.delete();
+    push("/");
+  };
+
   const onSave = () => {
     docRef.update({
       title: title,
@@ -42,8 +47,18 @@
     text-align: right;
   }
 
+  .delete {
+    background-color: darkred;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+  }
+
   .save {
-    background-color: rgb(62, 68, 163);
+    background-color: teal;
     border: none;
     border-radius: 3px;
     color: white;
@@ -61,6 +76,8 @@
 <div class="add">
   <NoteEditor bind:title bind:content />
   <div class="button-container">
+
+    <button class="delete" on:click={Delete}>!Delete!</button>
     <button class="save" on:click={onSave} disabled={!title || !content}>
       Save
     </button>

@@ -9,6 +9,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "raw-loader": "^4.0.1",
     "rollup": "^2.3.4",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
@@ -19,6 +20,7 @@
   "dependencies": {
     "eslint-plugin-svelte3": "^2.7.3",
     "firebase": "^7.15.5",
+    "markdown-to-txt": "^1.0.1",
     "rxfire": "^3.13.5",
     "rxjs": "^6.5.5",
     "sirv-cli": "^0.4.4"
