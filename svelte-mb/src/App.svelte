@@ -1,4 +1,13 @@
 <script>
+  import { auth, googleProvider } from "./firebase";
+  import { authState } from "rxfire/auth";
+  let user;
+  authState(auth).subscribe(u => (user = u));
+
+  function login() {
+    auth.signInWithPopup(googleProvider);
+  }
+
   import Router from "svelte-spa-router";
   import Home from "./Home.svelte";
   import Add from "./Add.svelte";
@@ -22,8 +31,14 @@
   }
 </style>
 
-<main>
+{#if user}
   <Router {routes} />
+{:else}
+  <button on:click={login}>Signin with Google</button>
+{/if}
+<section />
+<main>
+
   <p>
     Visit the
     <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
