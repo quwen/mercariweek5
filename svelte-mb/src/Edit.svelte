@@ -49,20 +49,24 @@
 
   .delete {
     background-color: darkred;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 3px;
     color: white;
     font-size: 1em;
+    margin: 1em;
     padding: 0.5em 1em;
     cursor: pointer;
   }
 
   .save {
     background-color: teal;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 3px;
     color: white;
     font-size: 1em;
+    margin: 1em;
     padding: 0.5em 1em;
     cursor: pointer;
   }
