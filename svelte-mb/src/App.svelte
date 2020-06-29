@@ -8,14 +8,6 @@
     auth.signInWithPopup(googleProvider);
   }
 
-  /*
-  let email,
-    password = "";
-
-  function testlogin() {
-    auth.signInWithEmailAndPassword(email, password);
-  }
-*/
   import Router from "svelte-spa-router";
   import Home from "./Home.svelte";
   import Add from "./Add.svelte";
@@ -40,16 +32,34 @@
     padding: 2em;
     height: 100%;
     overflow-y: auto;
+    position: relative;
+  }
+  .button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
-  button {
+  .button button {
     background-color: gainsboro;
     border: none;
     border-radius: 3px;
+    opacity: 0;
+    animation: fadin 2s ease forwards;
     color: black;
     font-size: 1em;
     padding: 0.5em 1em;
+
     cursor: pointer;
+  }
+  @keyframes fadin {
+    100% {
+      opacity: 1;
+    }
   }
 
   #header {
@@ -77,12 +87,9 @@
   {#if user}
     <Router {routes} />
   {:else}
-    <button on:click={login}>Signin with Google</button>
-    <!--
-    <button on:click={testlogin}>Sign in as a test user</button>
-    <input blind:value={email} placeholder="enter test email" />
-    <input blind:value={password} placeholder="enter test password" />
-    -->
+    <div class="button">
+      <button on:click={login}>Signin with Google</button>
+    </div>
   {/if}
 
 </main>
