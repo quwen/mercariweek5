@@ -7,20 +7,19 @@
   let title = "New Note";
   let content = "";
   let currentDate = new Date();
-  let date, month, year;
+  let day, month, year;
 
-  $: {
-    date = currentDate.getDate();
-    month = currentDate.getMonth();
-    year = currentDate.getDate();
-  }
+  day = currentDate.getDate();
+  month = currentDate.getMonth();
+  year = currentDate.getFullYear();
+  let datestring = [year, month, day].join("-");
 
   function add() {
     db.collection("notes")
       .add({
         title,
         content,
-        date: currentDate.toString()
+        date: datestring
       })
       .then(function(docRef) {
         let noteid = docRef.id;
@@ -29,10 +28,7 @@
         console.error("Error adding document: ", error);
       });
   }
-  /*
-  let title = "New Note";
-  let content = "";
-*/
+
   const onSave = () => {
     add();
     push("/");

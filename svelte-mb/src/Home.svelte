@@ -14,6 +14,7 @@
           {
             id: docRef.id,
             title: docRef.data().title,
+            date: docRef.data().date,
             content: docRef.data().content
           }
         ];
