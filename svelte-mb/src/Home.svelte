@@ -27,7 +27,7 @@
 <style>
   .add {
     display: block;
-    background-color: mediumturquoise;
+    background-color: slateblue;
     border: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     color: white;
